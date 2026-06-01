@@ -36,3 +36,38 @@ console.log(date.getDate()); // Day
 let pattern = /abc/; // Regular Expression
 console.log(pattern.test("abcdef")); // true
 console.log(pattern.test("xyz")); // false
+
+// -------------------stack and heap memory------------------
+
+// Primitive Types     => Stack => Copy
+// i.e. Stored in Stack--Copy is passed--Changes do not affect original value
+
+let a = 10;
+let b = a; // Copy
+b = 20;
+console.log(a); // 10
+console.log(b); // 20
+
+// Non-Primitive Types => Heap  => Reference
+// i.e. Stored in Heap--Reference is passed--Changes affect original value
+
+let obj1 = { name: "Omkar" };
+let obj2 = obj1; // Reference
+obj2.name = "Jaybhaye";
+console.log(obj1.name); // Jaybhaye
+console.log(obj2.name); // Jaybhaye
+
+// but if we need to create separate copy of object(or for any non-primitive type) then we can use Object.assign() or spread operator
+let obj1 = {
+  name: "Omkar",
+};
+let obj2 = { ...obj1 }; // Separate copy using spread operator
+obj2.name = "Jaybhaye";
+console.log(obj1.name); // Omkar
+console.log(obj2.name); // Jaybhaye
+
+let obj3 = { name: "Omkar" };
+let obj4 = Object.assign({}, obj3); // Separate copy using Object.assign()
+obj4.name = "Jaybhaye";
+console.log(obj3.name); // Omkar
+console.log(obj4.name); // Jaybhaye
