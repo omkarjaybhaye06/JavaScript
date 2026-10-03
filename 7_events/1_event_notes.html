@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Events</title>
+  </head>
+  <body>
+    <h1>JavaScript Events</h1>
+    <button id="eventButton">Click me</button>
+    <input id="eventInput" type="text" placeholder="Type something" />
+
+    <!--
+		JAVASCRIPT EVENTS - QUICK NOTES
+
+		Event: An action or occurrence detected by JavaScript, such as a click, key press, or page load.
+		Event-driven programming: Program flow controlled by user or browser events.
+		Event target: The element where the event originally happened.
+		Event object: An object containing information about the event.
+		Event listener: A function that waits for and responds to an event.
+		Event handler: The function executed when an event occurs.
+
+		ADDING EVENTS
+
+		addEventListener(): Attaches an event listener without replacing other listeners.
+		removeEventListener(): Removes a listener previously added with the same function reference.
+		Inline event: An event written in HTML, such as onclick="run()"; generally avoid it.
+		DOM property event: An event assigned with element.onclick = functionName; only one handler is retained.
+		Recommended method: Use addEventListener() for clean, flexible, and multiple event handling.
+
+		COMMON MOUSE EVENTS
+
+		click: Fires when an element is clicked.
+		dblclick: Fires when an element is double-clicked.
+		mousedown: Fires when a mouse button is pressed.
+		mouseup: Fires when a mouse button is released.
+		mousemove: Fires while the pointer moves.
+		mouseenter: Fires when the pointer enters an element; it does not bubble.
+		mouseleave: Fires when the pointer leaves an element; it does not bubble.
+		mouseover: Fires when the pointer enters an element or one of its children.
+		mouseout: Fires when the pointer leaves an element or enters another element.
+		contextmenu: Fires when the right-click context menu is requested.
+		wheel: Fires when the mouse wheel or trackpad wheel moves.
+
+		COMMON KEYBOARD EVENTS
+
+		keydown: Fires when a key is pressed down.
+		keyup: Fires when a key is released.
+		keypress: Deprecated; use keydown instead.
+		event.key: Gives the key value, such as "a", "Enter", or "ArrowUp".
+		event.code: Gives the physical key name, such as "KeyA" or "ArrowUp".
+		event.repeat: Indicates that a key is being held down.
+		event.ctrlKey: Indicates whether Ctrl was pressed.
+		event.shiftKey: Indicates whether Shift was pressed.
+		event.altKey: Indicates whether Alt was pressed.
+		event.metaKey: Indicates whether Meta/Windows/Command was pressed.
+
+		FORM EVENTS
+
+		submit: Fires when a form is submitted.
+		input: Fires immediately whenever an input value changes.
+		change: Fires after a value changes and the control loses focus or is committed.
+		focus: Fires when an element receives focus; it does not bubble.
+		blur: Fires when an element loses focus; it does not bubble.
+		focusin: Like focus, but it bubbles.
+		focusout: Like blur, but it bubbles.
+		reset: Fires when a form is reset.
+		invalid: Fires when form validation fails.
+		event.target.value: Gives the current value of an input control.
+
+		CLIPBOARD EVENTS
+
+		copy: Fires when content is copied.
+		cut: Fires when content is cut.
+		paste: Fires when content is pasted.
+		event.clipboardData: Provides clipboard data for clipboard events.
+
+		DOCUMENT AND BROWSER EVENTS
+
+		DOMContentLoaded: Fires when HTML is parsed and the DOM is ready.
+		load: Fires after the whole page and its resources finish loading.
+		beforeunload: Fires before the page is closed, refreshed, or navigated away from.
+		unload: Fires while a page is being unloaded; generally avoid relying on it.
+		resize: Fires when the browser viewport size changes.
+		scroll: Fires when the document or an element is scrolled.
+		online: Fires when the browser detects an internet connection.
+		offline: Fires when the browser detects loss of connection.
+		visibilitychange: Fires when the page becomes visible or hidden.
+		hashchange: Fires when the URL fragment/hash changes.
+		popstate: Fires when browser history state changes.
+
+		TOUCH AND POINTER EVENTS
+
+		touchstart: Fires when a finger touches the screen.
+		touchmove: Fires while a finger moves on the screen.
+		touchend: Fires when a finger leaves the screen.
+		touchcancel: Fires when a touch is interrupted.
+		pointerdown: Fires when a mouse, touch, or pen is pressed.
+		pointerup: Fires when a pointer is released.
+		pointermove: Fires while a pointer moves.
+		pointerenter: Fires when a pointer enters an element.
+		pointerleave: Fires when a pointer leaves an element.
+		pointercancel: Fires when pointer interaction is interrupted.
+		Pointer Events: A unified input system for mouse, touch, and stylus devices.
+
+		IMPORTANT EVENT PROPERTIES
+
+		event.type: Gives the event name, such as "click".
+		event.target: Gives the original element that triggered the event.
+		event.currentTarget: Gives the element whose listener is currently running.
+		event.eventPhase: Gives the current phase: capturing, target, or bubbling.
+		event.timeStamp: Gives the time associated with the event.
+		event.bubbles: Indicates whether the event travels upward through ancestors.
+		event.cancelable: Indicates whether preventDefault() can stop the default action.
+		event.defaultPrevented: Indicates whether the default action was prevented.
+		event.isTrusted: Indicates whether the event came from a real user action.
+		event.detail: Gives extra event-specific information or CustomEvent data.
+		event.clientX/clientY: Pointer position relative to the viewport.
+		event.pageX/pageY: Pointer position relative to the complete document.
+		event.screenX/screenY: Pointer position relative to the physical screen.
+
+		IMPORTANT EVENT METHODS
+
+		event.preventDefault(): Stops the browser's default action, such as link navigation.
+		event.stopPropagation(): Stops the event from moving to other DOM ancestors.
+		event.stopImmediatePropagation(): Also prevents other listeners on the same element.
+		element.dispatchEvent(event): Manually dispatches an event.
+		event.composedPath(): Returns the path followed by the event through the DOM.
+
+		EVENT PROPAGATION
+
+		Capturing phase: The event travels from window down toward the target.
+		Target phase: The event reaches the element where it originated.
+		Bubbling phase: The event travels from the target back up through ancestors.
+		Capture listener: Use addEventListener(type, handler, { capture: true }).
+		Event delegation: Put one listener on a parent and handle events from its children.
+		event.target in delegation: Identifies the actual child that triggered the event.
+		event.currentTarget in delegation: Identifies the parent containing the listener.
+
+		LISTENER OPTIONS
+
+		capture: Runs the listener during the capturing phase.
+		once: Removes the listener automatically after its first execution.
+		passive: Promises that the listener will not call preventDefault().
+		signal: Connects a listener to an AbortController for later cancellation.
+
+		OTHER USEFUL CONCEPTS
+
+		this in a normal handler: Usually refers to the element receiving the listener.
+		this in an arrow handler: Uses this from the surrounding scope instead.
+		Default action: The browser behavior naturally associated with an event.
+		CustomEvent: A developer-created event type that can carry custom data.
+		AbortController: Cancels one or more listeners connected to its signal.
+		Debouncing: Waits until frequent events stop before running a function.
+		Throttling: Limits a function so it runs at most once within a time period.
+		Event loop: Coordinates synchronous code, tasks, and asynchronous callbacks.
+
+		attachEvent(): Used in older versions of Internet Explorer.
+    	jQuery - on(): A jQuery method for attaching event handlers.
+
+    	type: The type of the event (e.g., "click", "input").
+    	timestamp: The time when the event was created.
+    	defaultPrevented: A boolean indicating whether preventDefault() was called.
+    	target: The element that triggered the event.
+    	toElement: The element that the mouse pointer is over (for mouse events).
+    	srcElement: The element that triggered the event (older IE property).
+    	currentTarget: The element that has the event listener attached.
+    	clientX, clientY: The mouse position relative to the viewport.
+    	screenX, screenY: The mouse position relative to the screen.
+    	altkey, ctrlkey, shiftkey, keyCode: Information about modifier keys and pressed keys.
+	-->
+
+    <script>
+      // Example 1: Read common event properties from a click.
+      const eventButton = document.querySelector("#eventButton");
+      eventButton.addEventListener("click", (event) => {
+        console.log(
+          "Click event:",
+          event.type,
+          event.target,
+          event.currentTarget,
+        );
+      });
+
+      // Example 2: Read keyboard and input information.
+      const eventInput = document.querySelector("#eventInput");
+      eventInput.addEventListener("input", (event) => {
+        console.log(
+          "Input value:",
+          event.target.value,
+          "Last key:",
+          event.data,
+        );
+      });
+
+      // Example 3: Demonstrate event delegation and preventDefault().
+      document.addEventListener("click", (event) => {
+        if (event.target === eventButton) {
+          event.preventDefault();
+          console.log("Delegated click handled by document");
+        }
+      });
+    </script>
+  </body>
+</html>

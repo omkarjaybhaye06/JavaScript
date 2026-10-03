@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html Events</title>
+  </head>
+  <body style="background-color: #414141; color: aliceblue">
+    <h2>Amazing image</h2>
+    <div>
+      <ul id="images">
+        <li>
+          <img
+            width="200px"
+            id="photoshop"
+            src="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt="photoshop"
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="japan"
+            src="https://images.pexels.com/photos/3532553/pexels-photo-3532553.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="river"
+            src="https://images.pexels.com/photos/3532551/pexels-photo-3532551.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <!-- Approach 1: Using onclick within the img tag is an example of an inline event handler.
+            onClick="alert('owl clicked')" is an inline event handler that triggers an alert when the image is clicked. 
+            However, it is generally recommended to use addEventListener() for better flexibility and to avoid conflicts with other event listeners.
+            When we scale our application, we may want to add multiple event listeners to the same element, and using inline event handlers can make it difficult to manage those listeners.
+            just a note- in react writing onClick in buttons is considered as scalable code, as this case is different in react framework-->
+          <img
+            width="200px"
+            id="owl"
+            src="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="prayer"
+            src="https://images.pexels.com/photos/2522671/pexels-photo-2522671.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <a style="color: aliceblue" href="https://google.com" id="google"
+            >Google</a
+          >
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script>
+    // Approach 2: Using onclick within the script tag is an example of a DOM property event handler.but onclick event gives less inbuilt features than addEventListener(), also onclick event unable to give us propogation and preventDefault functionality, so it is not recommended to use this approach.
+    // document.getElementById("owl").onclick = function () {
+    //     alert("owl clicked")
+    // }
+
+    //concept: Event propagation: It is the way events flow through the DOM tree.
+    // There are two phases of event propagation: capturing phase and bubbling phase.
+    // In the capturing phase, the event starts from the root of the DOM tree and goes down to the target element.
+    // In the bubbling phase, the event starts from the target element and goes up to the root of the DOM tree. By default, events are captured during the bubbling phase, but you can change this behavior by setting the third parameter of addEventListener() to true.
+
+    // Approach 3: Using addEventListener() is the most recommended way to handle events in JavaScript. false is used to indicate that the event should be captured during the bubbling phase, which is the default behavior. If you set it to true, the event will be captured during the capturing phase.
+    // document.getElementById('images').addEventListener('click', function(e){
+    //     console.log("clicked inside the ul");
+    // }, false)
+
+    document.getElementById("owl").addEventListener("click", function (e) {
+      console.log("owl clicked");
+    }); // false is default value, hence bubbling phase is used here, so event is captured from inside layer to outside layer, so first owl clicked is printed and then clicked inside the ul is printed.
+
+    // document.getElementById('owl').addEventListener('click', function(e){
+    //     console.log("owl clicked");
+    // }, true) // true indicate that the event should be captured during the capturing phase, which means that the event will be captured from outside layer to inside layer, so first clicked inside the ul is printed and then owl clicked is printed.
+
+    //concept: stoppropagation() is a method that stops the event from propagating further up or down the DOM tree. It prevents the event from being captured by any other event listeners on parent or child elements.
+    // In the above example, when the owl image is clicked, the event is captured by the owl event listener and the stopPropagation() method is called, which prevents the event from being captured by the ul event listener. As a result, only "owl clicked" is printed to the console.
+    // document.getElementById('owl').addEventListener('click', function(e){
+    //     console.log("owl clicked");
+    //     e.stopPropagation()
+    // }, false)
+
+    //concept: preventdefault(): It is a method that prevents the default action of an event from occurring.
+    // For example, when a link is clicked, the default action is to navigate to the link's URL. By calling preventDefault() on the click event, we can prevent this navigation from happening.
+    // document.getElementById('google').addEventListener('click',function(e){
+    //     e.preventDefault();
+    //     e.stopPropagation()
+    //     console.log("google clicked");
+    // }, false)
+
+    //concept: event delegation: It is a technique of using a single event listener to handle events for multiple child elements. Instead of adding an event listener to each child element.
+    //Lets say we want to remove the image when it is clicked, we can add an event listener to the parent element (ul) and check if the target of the event is an image. If it is, we can remove the image from the DOM.
+    // tagName: It is a property of the event object that returns the name of the HTML tag of the element that triggered the event. It is useful for identifying the type of element that was clicked or interacted with.
+    // parentNode: It is a property of the event object that returns the parent element of the element that triggered the event. It is useful for traversing the DOM tree and accessing the parent element of an element.
+    document.querySelector("#images").addEventListener("click", function (e) {
+      console.log(e.target); // e.target is the element that triggered the event, here in console it will print the image element details that was clicked.
+      console.log(e.target.tagName); // e.target.tagName is the name of the HTML tag of the element that triggered the event, here in console it will print IMG as we are clicking on image. this helps to identify and avoid any other element click event to be captured.
+      if (e.target.tagName === "IMG") {
+        // check if the clicked element is an image, if yes then remove it from the DOM.
+        console.log(e.target.id);
+        let removeIt = e.target.parentNode; // e.target.parentNode is the parent element of the clicked image, which is the li element. it will be used to remove only the image from the DOM.
+        removeIt.remove(); // remove() method is used to remove the element from the DOM.
+      }
+    });
+
+    //removeIt.parentNode.removeChild(removeIt) // this is another way to remove the element from the DOM.
+  </script>
+</html>
