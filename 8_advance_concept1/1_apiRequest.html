@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Request</title>
+  </head>
+  <body style="background-color: #bdb5b5">
+    <h1>API Request:</h1>
+    <h2>
+      What is API and API Request? </br>
+      An API (Application Programming Interface) is
+      a set of rules and protocols that allows different software applications
+      to communicate with each other. It defines how requests and responses
+      should be structured, enabling developers to access specific features or
+      data from a service without needing to understand its internal workings.
+      API requests are the means by which a client application interacts with an
+      API. They involve sending a request to the API's endpoint, often including
+      parameters or data, and receiving a response that contains the requested
+      information or confirmation of an action.
+    </h2>
+
+    <div>
+      <h3>V8 Engine:</h3>
+      <p>
+        V8 is the JavaScript engine used by Chrome and Node.js. It takes JavaScript code,
+        parses it, converts it into machine code, and runs it very fast. It also manages memory
+        using garbage collection. In simple words, V8 helps JavaScript run efficiently in the browser
+        and on the server.
+      </p>
+
+      <h3>API Request in simple words:</h3>
+      <p>
+        An API request is a way for one app to ask another app for data or action. For example,
+        a website may request user information from GitHub API. The request is sent using methods
+        like GET, POST, PUT, PATCH, or DELETE. The server responds with data usually in JSON format.
+        JavaScript then reads that response and shows it on the page.
+      </p>
+
+      <h3>HTTP Request Example:</h3>
+      <p>
+        <strong>GET</strong> = read data<br />
+        <strong>POST</strong> = send new data<br />
+        <strong>PUT</strong> = update complete data<br />
+        <strong>PATCH</strong> = update part of data<br />
+        <strong>DELETE</strong> = remove data
+      </p>
+    </div>
+
+    <!-- <p>XHR-XMLHttpRequest</p>
+    <p>
+      Old school way of making API request is using XMLHttpRequest object. It is
+      used to send and receive data from a web server. The XMLHttpRequest object
+      can be used to send HTTP requests to a server and receive responses in
+      various formats, such as XML, JSON, or plain text.
+    </p> -->
+
+    <!--
+    AJAX:
+    AJAX stands for Asynchronous JavaScript and XML. It is a technique used in web development to create dynamic and interactive web applications. AJAX allows web pages to be updated asynchronously by exchanging small amounts of data with the server behind the scenes. This means that it is possible to update parts of a web page, without reloading the whole page.
+    The core of AJAX is the XMLHttpRequest object, which is used to send and receive data from a web server. The XMLHttpRequest object can be used to send HTTP requests to a server and receive responses in various formats, such as XML, JSON, or plain text.
+
+    The readyState property of the XMLHttpRequest object holds the status of the XMLHttpRequest. It can have the following values:
+0	UNSENT	                Client has been created. open() not called yet.
+1	OPENED	                open() has been called.
+2	HEADERS_RECEIVED	      send() has been called, and headers and status are available.
+3	LOADING	Downloading;    responseText holds partial data.
+4	DONE	                  The operation is complete. 
+-->
+  </body>
+  <script>
+    const requestUrl = "https://api.github.com/users/omkarjaybhaye";
+    const xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
+    xhr.open("GET", requestUrl); // Initialize a GET request to the specified URL
+    xhr.onreadystatechange = function () {
+      // Define a callback function to handle the response. onreadystatechange is an event that is triggered whenever the readyState property of the XMLHttpRequest object changes. This function will be called multiple times as the request progresses through different states.
+      console.log(xhr.readyState); // Log the current readyState value to the console. This will help us understand the different stages of the request.
+      if (xhr.readyState === 4) {
+        // Check if the request is complete (readyState 4 means DONE)
+        const data = JSON.parse(this.responseText); // Parse the JSON response text into a JavaScript object. The responseText property contains the raw response data as a string, and JSON.parse() converts it into a usable object.
+        console.log(typeof data);
+        console.log(data.followers); // Log the number of followers from the parsed data to the console. This demonstrates how to access specific properties of the response object.
+      }
+    };
+    xhr.send(); // Send the request to the server. This initiates the actual network request to the specified URL.
+    // Note: The request is asynchronous by default, meaning that the code execution will continue without waiting for the response. The onreadystatechange callback will handle the response when it arrives.
+
+    //Difference in xhr.open() and xhr.send()
+    //xhr.open() is used to initialize a request, while xhr.send() is used to actually send the request to the server. The open() method sets up the request parameters (method, URL, etc.), while send() triggers the request to be sent over the network.
+  </script>
+</html>
