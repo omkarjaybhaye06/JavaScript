@@ -1,0 +1,52 @@
+<!-- Note:
+JavaScript is single-threaded, which means it executes one task at a time in the call stack. 
+However, it can still handle asynchronous operations using callbacks, Promises, and async/await. 
+This is possible because browser and Node.js APIs run long tasks in the background and notify JavaScript when they finish.
+
+Async and Await in JavaScript:
+Async in detail: async is used to declare an asynchronous function. An async function always returns a Promise.
+It lets you write asynchronous code in a cleaner, more readable way.
+When an async function is called, it starts executing immediately until it reaches an await. It then pauses and resumes later when the awaited Promise settles.
+
+Example:
+async function fetchData() {
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+  return data;
+}
+
+Explanation: In the above example, fetchData is declared as async, so calling it returns a Promise immediately.
+Inside the function, await pauses execution until the fetch() Promise resolves and the response is available.
+Then it waits again for response.json() to resolve, and finally returns the parsed data.
+If either step fails, the Promise rejects unless the error is handled with try/catch.
+
+Await in detail: await is used inside an async function to wait for a Promise to resolve or reject.
+It does not block the entire JavaScript thread; it pauses only the current async function until the awaited task finishes.
+When the Promise resolves, the function continues with the resolved value. If the Promise rejects, the error is thrown and can be caught with try/catch.
+
+Example:
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+Explanation: In the above example, the code waits for fetch() to resolve before continuing. 
+Then it waits for response.json() to complete and returns the parsed data.
+If any awaited Promise rejects, the error is caught by catch(error) and logged to the console.
+
+Example without async/await:
+function fetchData() {
+  return fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
+
+Explanation: In this example, fetchData returns a Promise, but it does not use the await keyword.
+Instead, it uses Promise chaining with .then() and .catch() to handle success and error cases.
+This is an alternative way to work with asynchronous code in JavaScript.
+-->

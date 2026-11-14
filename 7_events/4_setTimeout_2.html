@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>JAVASCRIPT</h1>
+    <button id="stop">Stop</button>
+  </body>
+  <script>
+    //
+    const sayName = function () {
+      console.log("Omkar");
+    };
+
+    const changeText = function () {
+      document.querySelector("h1").innerHTML = "Javascript Basics";
+    };
+
+    // setTimeout() is a built-in JavaScript function that allows you to execute a function after a specified delay in milliseconds.
+    // setTimeout() takes two arguments: the function to be executed and the delay time in milliseconds. It returns a unique identifier that can be used to cancel the timeout if needed.
+    // setTimeout() only executes once after the specified delay. If you want to execute a function repeatedly at a specified interval, you can use setInterval() instead.
+    const changeMe = setTimeout(changeText, 2000);
+
+    // clearTimeout() is a built-in JavaScript function that allows you to cancel a previously set timeout using its identifier.
+    // here in example, clearTimeout() takes the identifier returned by setTimeout() as its argument and stops the execution of the associated function if it hasn't already been executed.
+    // clearTimeout() takes argument as the identifier, in the case of the timeout you want to cancel, which is returned by setTimeout() or setInterval() when you create the timeout or interval.
+
+    document.querySelector("#stop").addEventListener("click", function () {
+      //here we are using addEventListener() to attach a click event listener to the button with the id "stop". When the button is clicked, the provided function will be executed.
+      clearTimeout(changeMe);
+      console.log("STOPPED");
+    });
+  </script>
+</html>

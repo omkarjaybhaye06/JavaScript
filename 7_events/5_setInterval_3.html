@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>JAVASCRIPT</h1>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+  </body>
+  <script>
+    // const sayDate = function (str) {
+    //   console.log(str, new Date().toLocaleTimeString());
+    // };
+
+    // const intervalId = setInterval(sayDate, 1000, "hi"); //hi is the argument passed to the sayDate function, which will be logged along with the current time every second.
+    // clearInterval(intervalId); //this will stop the interval from executing further and clear the interval, so the sayDate function will not be called anymore after this line is executed.
+
+    //or
+    // const sayName = function () {
+    //   console.log("Omkar");
+    // };
+    // const intervalId = setInterval(sayName, 1000);
+    // clearInterval(intervalId);
+
+    // ---------------
+    // We will start printing numbers from 1 when the Start button is clicked, and stop printing immediately when the Stop button is clicked.
+    const startButton = document.querySelector("#start");
+    const stopButton = document.querySelector("#stop");
+
+    let numberinterrupt = null;
+    function printNumbers() {
+      if (numberinterrupt) {
+        clearInterval(numberinterrupt); // This line checks if the numberinterrupt variable is not null, which means that the interval is already running.
+        // If it is running, it clears the existing interval using clearInterval(numberinterrupt) to stop the previous interval before starting a new one.
+        // This prevents multiple intervals from running simultaneously and ensures that only one interval is active at a time.
+      }
+
+      let num = 1;
+      // setInterval has ability to loop through the code inside it every 500 milliseconds, and print the current value of num to the console. After printing, it increments num by 1, so that the next number will be printed in the subsequent interval.
+      numberinterrupt = setInterval(() => {
+        //this line sets up a new interval using setInterval() and assigns the interval ID to the numberinterrupt variable.
+        console.log(num);
+        num++; // this line increments the num variable by 1 after each log, so that the next number will be printed in the subsequent interval.
+      }, 500);
+    }
+
+    // Add event listeners to the Start and Stop buttons to trigger the printNumbers function and stop the interval respectively.
+    stopButton.addEventListener("click", () => {
+      if (numberinterrupt) {
+        clearInterval(numberinterrupt); // This line clears the interval that was set by the printNumbers function, stopping the printing of numbers.
+        numberinterrupt = null; // This line resets the numberinterrupt variable to null after clearing the interval.
+        console.log("Stopped printing numbers");
+      }
+    });
+
+    // Add event listener to the Start button to trigger the printNumbers function when clicked.
+    startButton.addEventListener("click", printNumbers); //printNumbers is passed as a callback to the event listener as an reference, so that it will be executed when the Start button is clicked.
+    // printNumbers(); //to call the function immediately without clicking the button. This will start printing numbers as soon as the script is loaded, without waiting for a button click.
+  </script>
+</html>
